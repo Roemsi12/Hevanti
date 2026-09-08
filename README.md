@@ -10,14 +10,18 @@ om de opzet te laten zien.
 
 ## Draaien
 
-Geen buildstap nodig. Open `app/index.html` rechtstreeks in de browser, of start
-een lokale server vanuit de map `app`:
+Geen buildstap en geen npm-pakketten nodig. Start de meegeleverde ontwikkelserver
+met Node:
 
 ```bash
-python -m http.server 8000
+node scripts/dev-server.mjs
 ```
 
-Daarna te bekijken op http://localhost:8000.
+Daarna te bekijken op http://localhost:8123. Een andere poort kan met
+`node scripts/dev-server.mjs 3000`.
+
+`app/index.html` rechtstreeks openen werkt ook, maar via de server zit je dichter
+bij hoe het later online staat.
 
 ## Structuur
 
@@ -29,6 +33,8 @@ app/
     style.css             opmaak van de secties
   js/
     main.js               menu, scroll-effecten, formuliervalidatie
+scripts/
+  dev-server.mjs          lokale ontwikkelserver, zonder dependencies
 ```
 
 De teksten en klassenamen zijn Nederlands, in lijn met de doelgroep.
