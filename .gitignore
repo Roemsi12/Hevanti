@@ -1,0 +1,23 @@
+# Editors / OS
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencies / build (voor later, als er een buildstap bijkomt)
+node_modules/
+dist/
+build/
+.cache/
+
+# Omgevingsvariabelen
+.env
+.env.local
+
+# Lokale editor-instellingen
+.claude/
