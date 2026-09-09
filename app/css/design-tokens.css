@@ -8,22 +8,30 @@
   --kleur-inkt-zacht: #6b5e54;
   --kleur-creme: #faf7f2;
   --kleur-creme-diep: #f1eae0;
+  --kleur-mist: #f6f1e9;
   --kleur-eiken: #c08a4b;
   --kleur-eiken-diep: #a06f36;
   --kleur-walnoot: #2e2018;
   --kleur-lijn: #e3d9cc;
   --kleur-wit: #ffffff;
-  --kleur-succes: #3f7d52;
+
+  /* Commerciële accenten — actie, voorraad, beoordeling */
+  --kleur-actie: #b3402f;
+  --kleur-actie-zacht: #fbecea;
+  --kleur-voorraad: #3f7d52;
+  --kleur-voorraad-zacht: #eaf3ec;
+  --kleur-ster: #e0a63f;
 
   /* Typografie */
   --font-kop: "Playfair Display", Georgia, "Times New Roman", serif;
   --font-tekst: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --tekst-xxs: 0.6875rem;
   --tekst-xs: 0.8125rem;
   --tekst-s: 0.9375rem;
   --tekst-m: 1.0625rem;
   --tekst-l: 1.25rem;
   --tekst-xl: clamp(1.5rem, 1.2rem + 1.4vw, 2.125rem);
-  --tekst-xxl: clamp(2.25rem, 1.4rem + 3.6vw, 4rem);
+  --tekst-xxl: clamp(2.25rem, 1.4rem + 3.6vw, 3.75rem);
 
   /* Ruimte */
   --ruimte-1: 0.25rem;
@@ -34,7 +42,7 @@
   --ruimte-6: 2rem;
   --ruimte-7: 3rem;
   --ruimte-8: 4.5rem;
-  --ruimte-9: 6.5rem;
+  --ruimte-9: 6rem;
 
   /* Vorm */
   --rond-s: 6px;
@@ -48,7 +56,7 @@
   --schaduw-l: 0 12px 28px rgba(36, 28, 22, 0.12), 0 28px 64px rgba(36, 28, 22, 0.1);
 
   /* Layout */
-  --breedte-max: 1180px;
+  --breedte-max: 1240px;
   --breedte-tekst: 62ch;
 
   /* Beweging */

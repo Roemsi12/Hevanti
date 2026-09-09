@@ -41,10 +41,19 @@ De teksten en klassenamen zijn Nederlands, in lijn met de doelgroep.
 
 ### Secties op de pagina
 
-Held · Diensten · Werkwijze · Ons werk · Ervaringen · Offerteformulier · Voettekst
+Topbalk · Koptekst · Actiebanner · Held · USP-balk · Kies op legpatroon ·
+Collectie (met filters) · Legservice &amp; thuisadvies · Werkwijze · Merken ·
+Ons werk · Ervaringen · Showroom · Offerteformulier · Voettekst
 
-De vloer in de held-afbeelding en de projecttegels zijn met CSS getekend, zodat de
-demo geen fotobestanden nodig heeft. Bij echte foto's kunnen die weg.
+De opzet volgt de gangbare Nederlandse vloerenwinkels (vloeren.nl,
+vloerenwinkel.nl, devloerenzaak.nl, luxuryfloors.nl): een topbalk met
+telefoonnummer en beoordelingscijfer, een USP-balk, productkaarten met
+vanaf-prijzen per m², tegels per legpatroon, en aparte blokken voor legservice,
+showroom en merken. De kaarten linken naar het offerteformulier — er is bewust
+geen winkelwagen.
+
+De vloeren, legpatronen en projecttegels zijn met CSS getekend, zodat de demo
+geen fotobestanden nodig heeft. Bij echte foto's kunnen die weg.
 
 ## Plannen voor later
 

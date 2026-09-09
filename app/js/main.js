@@ -7,7 +7,7 @@
   var kalmeAnimatie = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------- Vloerplanken tekenen ---------- */
-  // Acht planken met wisselende versprongen naden, zodat het niet als een raster oogt.
+  // Acht planken met wisselende tinten, zodat het niet als een raster oogt.
   (function bouwVloer() {
     var vloer = document.getElementById("vloerBeeld");
     if (!vloer) return;
@@ -38,7 +38,6 @@
       zet(schakelaar.getAttribute("aria-expanded") !== "true");
     });
 
-    // Na een klik op een link het menu weer dichtdoen.
     nav.addEventListener("click", function (e) {
       if (e.target.closest("a")) zet(false);
     });
@@ -50,22 +49,32 @@
       }
     });
 
-    // Terug naar desktop: reset de status zodat de nav niet verborgen blijft.
     window.matchMedia("(min-width: 761px)").addEventListener("change", function (e) {
       if (e.matches) zet(false);
     });
   })();
 
-  /* ---------- Schaduw onder de sticky kop ---------- */
-  (function kopSchaduw() {
+  /* ---------- Schaduw onder de sticky kop + zwevende belknop ---------- */
+  (function scrollEffecten() {
     var kop = document.getElementById("kop");
-    if (!kop) return;
+    var belknop = document.getElementById("belknop");
+    var held = document.querySelector(".held");
+    var offerte = document.getElementById("offerte");
 
     function bijwerken() {
-      kop.dataset.geplakt = window.scrollY > 8 ? "ja" : "nee";
+      if (kop) kop.dataset.geplakt = window.scrollY > 8 ? "ja" : "nee";
+
+      if (belknop && held) {
+        // Pas tonen voorbij de held, en weer verbergen bij het offerteblok zelf.
+        var voorbijHeld = window.scrollY > held.offsetHeight;
+        var bijOfferte = offerte && offerte.getBoundingClientRect().top < window.innerHeight * 0.9;
+        belknop.dataset.zichtbaar = voorbijHeld && !bijOfferte ? "ja" : "nee";
+      }
     }
+
     bijwerken();
     window.addEventListener("scroll", bijwerken, { passive: true });
+    window.addEventListener("resize", bijwerken);
   })();
 
   /* ---------- Onthullen bij scrollen ---------- */
@@ -84,7 +93,7 @@
         item.target.dataset.zichtbaar = "ja";
         waarnemer.unobserve(item.target);
       });
-    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.1 });
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
 
     elementen.forEach(function (el, i) {
       el.style.transitionDelay = Math.min(i % 4, 3) * 70 + "ms";
@@ -114,6 +123,57 @@
     secties.forEach(function (s) { waarnemer.observe(s); });
   })();
 
+  /* ---------- Collectie filteren ---------- */
+  (function collectie() {
+    var knoppen = Array.prototype.slice.call(document.querySelectorAll(".filter"));
+    var kaarten = Array.prototype.slice.call(document.querySelectorAll(".vloerkaart"));
+    var leeg = document.getElementById("leegMelding");
+    if (!knoppen.length || !kaarten.length) return;
+
+    function filter(soort) {
+      var getoond = 0;
+
+      kaarten.forEach(function (kaart) {
+        var past = soort === "alle" || kaart.dataset.soort === soort;
+        kaart.hidden = !past;
+        if (past) {
+          getoond++;
+          // Kaarten die door een filter terugkomen meteen zichtbaar maken,
+          // anders blijven ze op opacity 0 staan van de scroll-animatie.
+          kaart.dataset.zichtbaar = "ja";
+        }
+      });
+
+      knoppen.forEach(function (k) {
+        k.setAttribute("aria-pressed", String(k.dataset.filter === soort));
+      });
+
+      if (leeg) leeg.dataset.zichtbaar = getoond === 0 ? "ja" : "nee";
+    }
+
+    knoppen.forEach(function (knop) {
+      knop.addEventListener("click", function () { filter(knop.dataset.filter); });
+    });
+
+    // De tegels bij "Kies op legpatroon" filteren op patroon in plaats van soort.
+    document.querySelectorAll(".soort[data-soort]").forEach(function (tegel) {
+      tegel.addEventListener("click", function () {
+        var patroon = tegel.dataset.soort;
+        var getoond = 0;
+
+        kaarten.forEach(function (kaart) {
+          var past = kaart.dataset.patroon === patroon;
+          kaart.hidden = !past;
+          if (past) { getoond++; kaart.dataset.zichtbaar = "ja"; }
+        });
+
+        // Geen enkele soort-knop klopt nog bij een patroonselectie.
+        knoppen.forEach(function (k) { k.setAttribute("aria-pressed", "false"); });
+        if (leeg) leeg.dataset.zichtbaar = getoond === 0 ? "ja" : "nee";
+      });
+    });
+  })();
+
   /* ---------- Offerteformulier (demo) ---------- */
   (function formulier() {
     var form = document.getElementById("offerteFormulier");
@@ -123,12 +183,8 @@
     var emailPatroon = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     var telefoonPatroon = /^[0-9 +()-]{8,}$/;
 
-    function vak(veldEl) {
-      return veldEl.closest("[data-veld]");
-    }
-
     function markeer(veldEl, fout) {
-      var houder = vak(veldEl);
+      var houder = veldEl.closest("[data-veld]");
       if (houder) houder.dataset.fout = fout ? "ja" : "nee";
       return !fout;
     }
@@ -170,7 +226,6 @@
       form.querySelectorAll("[data-veld]").forEach(function (v) { v.dataset.fout = "nee"; });
     });
 
-    // Fouten verdwijnen zodra iemand het veld herstelt.
     form.addEventListener("input", function (e) {
       var houder = e.target.closest("[data-veld]");
       if (houder && houder.dataset.fout === "ja") controleer();
